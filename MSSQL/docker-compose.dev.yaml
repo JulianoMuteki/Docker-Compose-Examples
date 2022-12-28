@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  sql-server-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: "sql-server-db-${ENVIRONMENT}"
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${DATABASE_DEFAULT_PASSWORD}
+      MSSQL_PID: Developer
+      # POSTGRES_DB: "study-project-db-${ENVIRONMENT}"    
+      # POSTGRES_PASSWORD: "${DATABASE_DEFAULT_PASSWORD}"      
+    # healthcheck:
+    #   test: "pg_isready -q -U postgres"
+    hostname: host-sql-server-db
+    healthcheck:
+        test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
+        interval: 10s
+        timeout: 3s
+        retries: 10
+        start_period: 10s
+    ports:
+      - 1434:1433
+    networks:
+      - sql-server-network
+networks:
+  sql-server-network:
+    name: sql-server-network

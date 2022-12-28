@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  jenkins-service:
+    restart: on-failure:10
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    privileged: true
+    #hostname: jenkinsserver
+    user: root
+    # labels:
+    #   com.example.description: "Jenkins-Server by DigitalAvenue.dev"
+    ports: 
+      - "8083:8080"
+      - "50003:50000"
+    networks:
+      jenkins-net:
+        aliases: 
+          - jenkins-net
+    volumes: 
+     - jenkins-data:/var/jenkins_home
+     
+volumes: 
+  jenkins-data:
+
+networks:
+  jenkins-net:
