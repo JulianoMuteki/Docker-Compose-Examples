@@ -9,10 +9,6 @@ services:
       ACCEPT_EULA: Y
       SA_PASSWORD: ${DATABASE_DEFAULT_PASSWORD}
       MSSQL_PID: Developer
-      # POSTGRES_DB: "study-project-db-${ENVIRONMENT}"    
-      # POSTGRES_PASSWORD: "${DATABASE_DEFAULT_PASSWORD}"      
-    # healthcheck:
-    #   test: "pg_isready -q -U postgres"
     hostname: host-sql-server-db
     healthcheck:
         test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
