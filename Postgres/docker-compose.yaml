@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: "postgres-db-${ENVIRONMENT}"
+    restart: always
+    environment:
+      POSTGRES_DB: "postgres-db-${ENVIRONMENT}"
+      POSTGRES_PASSWORD: "${DATABASE_DEFAULT_PASSWORD}"
+    healthcheck:
+      test: "pg_isready -q -U postgres"
+networks:
+  postgres-network:
+    driver: bridge
